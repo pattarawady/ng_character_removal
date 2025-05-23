@@ -1,3 +1,6 @@
+詳細
+https://deepwiki.com/pattarawady/ng_character_removal
+
 # Run and deploy your AI Studio app
 
 This contains everything you need to run your app locally.
