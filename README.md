@@ -1,5 +1,7 @@
 詳細
 https://deepwiki.com/pattarawady/ng_character_removal
+デモ画面
+https://service-669174917162.us-west1.run.app
 
 # Run and deploy your AI Studio app
 
