@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【一休】禁止文字リムーバー＆DP禁止文字ハイライト</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              850: '#172033' 
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+  mark.highlighted-dp-word {
+    background-color: #FFD700; /* Gold */
+    color: #333333; /* Dark Gray */
+    font-weight: 600; /* Semibold */
+    padding: 0.1em 0.25em;
+    border-radius: 0.2em;
+    box-shadow: 0 0 5px rgba(255,215,0,0.5);
+  }
+  .tab-button {
+    padding: 0.75rem 1.5rem;
+    margin-right: 0.5rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    border: 1px solid transparent;
+    border-bottom: none; /* Remove bottom border for all tab buttons initially */
+  }
+  .tab-button-active {
+    background-color: #334155; /* slate-700 */
+    color: #f1f5f9; /* slate-100 */
+    border-color: #475569; /* slate-600 */
+  }
+  .tab-button-inactive {
+    background-color: #1e293b; /* slate-800 */
+    color: #94a3b8; /* slate-400 */
+    border-color: #334155; /* slate-700 */
+  }
+  .tab-button-inactive:hover {
+    background-color: #27364b; /* A bit lighter than slate-800 */
+    color: #cbd5e1; /* slate-300 */
+  }
+  .tab-content {
+    border-top-left-radius: 0; /* Adjust if needed based on tab design */
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0"
+  }
+}
+</script>
+</head>
+<body class="bg-slate-900">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
+<link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>
