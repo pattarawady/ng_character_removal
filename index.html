@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【宿力】テキスト調整アプリ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-red': '#D32F2F',      // Strong red accent
+            'brand-red-darker': '#B71C1C', // Darker red for hover/active states
+            
+            // Light Theme Palette
+            'brand-bg-light': '#FFFFFF',           // Main page background (white)
+            'brand-bg-content-light': '#FFFFFF',   // Background for cards, tabs (white, use borders for separation)
+            'brand-bg-input-light': '#F3F4F6',     // Background for input fields (Tailwind gray-100)
+            'brand-text-dark': '#111827',          // Primary dark text (Tailwind gray-900)
+            'brand-text-medium-dark': '#4B5563',   // Secondary text (Tailwind gray-600)
+            'brand-text-on-accent': '#FFFFFF',     // Text on red backgrounds (white)
+            'brand-border-light-theme': '#E5E7EB', // Default borders for light theme (Tailwind gray-200)
+            'brand-border-light-theme-hover': '#D1D5DB', // Hover border color (Tailwind gray-300)
+
+            // Remapping existing slate and purple to the new light theme
+            slate: {
+              900: '#FFFFFF', // Was main BG dark -> brand-bg-light
+              850: '#FFFFFF', // Was output BG -> brand-bg-content-light
+              800: '#FFFFFF', // Was tab main BG -> brand-bg-content-light
+              700: '#F3F4F6', // Was input BG -> brand-bg-input-light
+              600: '#E5E7EB', // Was borders, scrollbar thumb -> brand-border-light-theme
+              500: '#4B5563', // Was placeholder text -> brand-text-medium-dark
+              400: '#4B5563', // Was secondary text color -> brand-text-medium-dark
+              300: '#111827', // Was input text color -> brand-text-dark
+              200: '#111827', // Was primary text color -> brand-text-dark
+              100: '#111827', // Was very light text -> brand-text-dark
+            },
+            purple: { // Remapping purple to shades of brand-red (remains the same)
+              400: '#F87171', 
+              500: '#D32F2F', 
+              600: '#D32F2F', 
+              700: '#B71C1C', 
+            },
+            red: { // Ensuring our brand red is accessible (remains the same)
+                500: '#EF4444', 
+                600: '#D32F2F', 
+                700: '#B71C1C', 
+            },
+            // Error colors for Light Theme
+            'error-bg': 'rgba(239, 68, 68, 0.05)', // Very light red background for error messages
+            'error-text': '#B91C1C',              // Darker red text for errors (Tailwind red-700)
+            'error-border': 'rgba(239, 68, 68, 0.3)',// Red border for errors (Tailwind red-500 with alpha)
+          }
+        }
+      }
+    }
+  </script>
+<style>
+  body {
+    background-color: tailwind.theme.colors['brand-bg-light']; /* #FFFFFF */
+    color: tailwind.theme.colors['brand-text-dark']; /* Default text color */
+  }
+  mark.highlighted-dp-word {
+    background-color: #FFD700; /* Gold */
+    color: tailwind.theme.colors['brand-text-dark']; /* Dark text on gold for readability */
+    font-weight: 600;
+    padding: 0.1em 0.25em;
+    border-radius: 0.2em;
+    box-shadow: 0 0 5px rgba(255,215,0,0.3);
+  }
+  .tab-button {
+    padding: 0.75rem 1.5rem;
+    margin-right: 0px;
+    border-radius: 0.5rem 0.5rem 0 0;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    border: 1px solid tailwind.theme.colors['brand-border-light-theme']; 
+    border-bottom: none; 
+  }
+  .tab-button-active {
+    background-color: tailwind.theme.colors['brand-red']; 
+    color: tailwind.theme.colors['brand-text-on-accent']; 
+    border-color: tailwind.theme.colors['brand-red']; 
+  }
+  .tab-button-inactive {
+    background-color: tailwind.theme.colors['brand-bg-input-light']; /* Light gray background for inactive tabs */
+    color: tailwind.theme.colors['brand-text-medium-dark']; 
+    border-color: tailwind.theme.colors['brand-border-light-theme']; 
+  }
+  .tab-button-inactive:hover {
+    background-color: tailwind.theme.colors['brand-border-light-theme']; /* Slightly darker on hover */
+    color: tailwind.theme.colors['brand-text-dark']; 
+    border-color: tailwind.theme.colors['brand-border-light-theme-hover']; 
+  }
+  .tab-content {
+    border-top-left-radius: 0; 
+    border-top-right-radius: 0;
+    /* Ensure border connects with tabs if active tab border is different */
+    /* border: 1px solid tailwind.theme.colors['brand-red']; If active tab defines its full border */
+  }
+
+  /* Custom scrollbar styles for webkit browsers - Light Theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: tailwind.theme.colors['brand-bg-input-light']; /* Light gray track */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: tailwind.theme.colors['brand-border-light-theme-hover']; /* Medium gray thumb */
+    border-radius: 4px;
+    border: 2px solid tailwind.theme.colors['brand-bg-input-light']; 
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: tailwind.theme.colors['brand-text-medium-dark']; /* Darker gray thumb on hover */
+  }
+
+  /* For Firefox - Light Theme */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: tailwind.theme.colors['brand-border-light-theme-hover'] tailwind.theme.colors['brand-bg-input-light'];
+  }
+
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0"
+  }
+}
+</script>
+</head>
+<body class="bg-brand-bg-light">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html><link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>
